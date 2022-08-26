@@ -1,0 +1,723 @@
+{
+	"info": {
+		"_postman_id": "5478c993-58f7-4882-a119-61f2e3a6f600",
+		"name": "Positive tests for reqres.in",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18608237"
+	},
+	"item": [
+		{
+			"name": "Single user (using mock server)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const schema = {\r",
+							"    \"type\": \"object\",\r",
+							"    \"properties\": {\r",
+							"        \"data\": {\r",
+							"            \"type\": \"object\",\r",
+							"            \"properties\": {\r",
+							"                \"id\": {\r",
+							"                    \"type\": \"integer\"\r",
+							"                },\r",
+							"                \"email\": {\r",
+							"                    \"type\": \"string\"\r",
+							"                },\r",
+							"                \"first_name\": {\r",
+							"                    \"type\": \"string\"\r",
+							"                },\r",
+							"                \"last_name\": {\r",
+							"                    \"type\": \"string\"\r",
+							"                },        \r",
+							"                \"avatar\": {\r",
+							"                    \"type\": \"string\"\r",
+							"                }                          \r",
+							"            },\r",
+							"            \"required\": [\r",
+							"                \"id\",\r",
+							"                \"email\"\r",
+							"            ]\r",
+							"        }\r",
+							"    },\r",
+							"    \"support\":{\r",
+							"        \"type\": \"object\",\r",
+							"        \"properties\": {\r",
+							"            \"url\": {\r",
+							"                \"type\":\"string\"\r",
+							"            },\r",
+							"            \"text\":{\r",
+							"                \"type\":\"string\"\r",
+							"            }\r",
+							"\r",
+							"        }        \r",
+							"    },\r",
+							"    \"required\":[\r",
+							"        \"data\",\r",
+							"        \"support\"\r",
+							"    ]\r",
+							"};\r",
+							"\r",
+							"\r",
+							"pm.test(\"ID in body matches requested id\", function () {\r",
+							"    var JsonData = pm.response.json();\r",
+							"    pm.expect(String(JsonData.data.id)).to.eql(pm.collectionVariables.get(\"UserID\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Schema is valid\", ()=> {\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"User \" + pm.collectionVariables.get(\"UserID\")+ \" have last name = \" + pm.collectionVariables.get(\"UserLastName\") , function(){\r",
+							"    var JsonData = pm.response.json();\r",
+							"    pm.expect(String(JsonData.data.last_name)).to.eql(pm.collectionVariables.get(\"UserLastName\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Included text\", ()=> {\r",
+							"    pm.expect(pm.response.text()).to.include(\"текст\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.test(\"Required environment for mock is set up\", ()=> {\r",
+							"    pm.expect(pm.environment.has(\"Mock_url\")).is.equal(true,\"PLEASE SET UP ENVIRONMENT FOR TESTS !!! \");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Mock_url}}/api/users/{{UserID}}",
+					"host": [
+						"{{Mock_url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{UserID}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "SingleUserExample",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/users/{{UserID}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{UserID}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 11 Mar 2022 13:59:42 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"118-pbdwwFo9SKNhD3Lx5iHJyngpq00\""
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "max-age=14400"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "HIT"
+						},
+						{
+							"key": "Age",
+							"value": "3208"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Report-To",
+							"value": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=sM2AKNuW4Otu205oBX%2F1BGzStPNSE92fj9oEOhROMejvMGrDGUWX0B7EGhDBPHho0Wy2uRxRyya6z5huHW%2BYl2EZlwKcj4VxaOFlP2YxKwPmjlx6L6Izkl2FllY%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
+						},
+						{
+							"key": "NEL",
+							"value": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "6ea4cfeacde06fd1-IAD"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "br"
+						},
+						{
+							"key": "alt-svc",
+							"value": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"id\": 2,\n        \"email\": \"janet.weaver@reqres.in\",\n        \"first_name\": \"Janet\",\n        \"last_name\": \"Weaver\",\n        \"avatar\": \"https://reqres.in/img/faces/2-image.jpg\"\n    },\n    \"support\": {\n        \"url\": \"https://reqres.in/#support-heading\",\n        \"text\": \"To keep ReqRes free, contributions towards server costs are appreciated! текст text\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "List users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Page number in body number matches requisted page number\", function () {\r",
+							"    pm.response.to.have.jsonBody(\"page\", Number(pm.collectionVariables.get(\"PageNumber\")));\r",
+							"});\r",
+							"\r",
+							"// Time dependent API call, have own time lower then base time\r",
+							"pm.test(\"Response time is less then \"+pm.collectionVariables.get(\"TimeForGetListUsers\"), function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.collectionVariables.get(\"TimeForGetListUsers\")));\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"User \" + pm.collectionVariables.get(\"UserID\")+ \" have last name = \" + pm.collectionVariables.get(\"UserLastName\") , function(){\r",
+							"    var JsonData = pm.response.json();\r",
+							"    pm.expect(String(JsonData.data[pm.collectionVariables.get(\"UserID\")-1].last_name)).to.eql(pm.collectionVariables.get(\"UserLastName\"));\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/api/users?page={{PageNumber}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "{{PageNumber}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List of resources",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Resource \" + pm.collectionVariables.get(\"UserID\")+ \" have name = \" + pm.collectionVariables.get(\"ResourceName\") , function(){\r",
+							"    var JsonData = pm.response.json();\r",
+							"    pm.expect(String(JsonData.data[pm.collectionVariables.get(\"ResourceID\")-1].name)).to.eql(pm.collectionVariables.get(\"ResourceName\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/api/unknow",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api",
+						"unknow"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Single resource",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"id in body matches requested id\", function () {\r",
+							"    var JsonData = pm.response.json();\r",
+							"    pm.expect(String(JsonData.data.id)).to.eql(pm.collectionVariables.get(\"ResourceID\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Resource \" + pm.collectionVariables.get(\"UserID\")+ \" have name = \" + pm.collectionVariables.get(\"ResourceName\") , function(){\r",
+							"    var JsonData = pm.response.json();\r",
+							"    pm.expect(String(JsonData.data.name)).to.eql(pm.collectionVariables.get(\"ResourceName\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/api/unknow/{{ResourceID}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api",
+						"unknow",
+						"{{ResourceID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Created user with name = \" + pm.collectionVariables.get(\"NewUserName\")+ \" and job = \" + pm.collectionVariables.get(\"NewUserJob\") , function(){\r",
+							"    var JsonData = pm.response.json();\r",
+							"    pm.expect(String(JsonData.name)).to.eql(pm.collectionVariables.get(\"NewUserName\"));\r",
+							"    pm.expect(String(JsonData.job)).to.eql(pm.collectionVariables.get(\"NewUserJob\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Created user date is today\" , function(){\r",
+							"    var JsonData = pm.response.json();\r",
+							"    var CurrentDate = Date.now();\r",
+							"    var DifferenceInDates = CurrentDate - Date.parse(JsonData.createdAt);\r",
+							"    pm.expect(DifferenceInDates).to.be.lessThan(120000);\r",
+							"    //2 minutes difference is allowed\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{NewUserName}}\",\r\n    \"job\": \"{{NewUserJob}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/api/users",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user put method",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Updated user has name = \" + pm.collectionVariables.get(\"UpdateUserName\")+ \" and job = \" + pm.collectionVariables.get(\"UpdateUserJob\") , function(){\r",
+							"    var JsonData = pm.response.json();\r",
+							"    pm.expect(String(JsonData.name)).to.eql(pm.collectionVariables.get(\"UpdateUserName\"));\r",
+							"    pm.expect(String(JsonData.job)).to.eql(pm.collectionVariables.get(\"UpdateUserJob\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Updated date is today\" , function(){\r",
+							"    var JsonData = pm.response.json();\r",
+							"    var CurrentDate = Date.now();\r",
+							"    var DifferenceInDates = CurrentDate - Date.parse(JsonData.updatedAt);\r",
+							"    pm.expect(DifferenceInDates).to.be.lessThan(120000);\r",
+							"    //2 minutes difference is allowed\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{UpdateUserName}}\",\r\n    \"job\": \"{{UpdateUserJob}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/api/users/{{UpdateUserID}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{UpdateUserID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user patch method",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Updated user has name = \" + pm.collectionVariables.get(\"UpdateUserName\")+ \" and job = \" + pm.collectionVariables.get(\"UpdateUserJob\") , function(){\r",
+							"    var JsonData = pm.response.json();\r",
+							"    pm.expect(String(JsonData.name)).to.eql(pm.collectionVariables.get(\"UpdateUserName\"));\r",
+							"    pm.expect(String(JsonData.job)).to.eql(pm.collectionVariables.get(\"UpdateUserJob\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Updated date is today\" , function(){\r",
+							"    var JsonData = pm.response.json();\r",
+							"    var CurrentDate = Date.now();\r",
+							"    var DifferenceInDates = CurrentDate - Date.parse(JsonData.updatedAt);\r",
+							"    pm.expect(DifferenceInDates).to.be.lessThan(120000);\r",
+							"    //2 minutes difference is allowed\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{UpdateUserName}}\",\r\n    \"job\": \"{{UpdateUserJob}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/api/users/{{UpdateUserID}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{UpdateUserID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/api/users/2",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register new user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Body has ID and token\", function () {\r",
+							"    var JsonData = pm.response.json();\r",
+							"    pm.response.to.have.jsonBody(\"token\");\r",
+							"    pm.collectionVariables.set(\"RegisterUserToken\", JsonData.token);\r",
+							"    pm.response.to.have.jsonBody(\"id\");\r",
+							"    \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"pistol\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/api/register",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Body has ID and token\", function () {\r",
+							"    var JsonData = pm.response.json();\r",
+							"    pm.response.to.have.jsonBody(\"token\");\r",
+							"    pm.collectionVariables.set(\"LoginUserToken\", JsonData.token);\r",
+							"    \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"cityslickaa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/api/login",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Response is not error\", function(){",
+					"    //pm.response.to.be.json;",
+					"    //pm.response.to.be.withBody;",
+					"    pm.response.to.not.be.error;",
+					"});",
+					"",
+					"pm.test(\"Response time is less then \"+pm.collectionVariables.get(\"BaseTimeForTests\"), function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.collectionVariables.get(\"BaseTimeForTests\")));",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BaseUrl",
+			"value": "https://reqres.in"
+		},
+		{
+			"key": "PageNumber",
+			"value": "1"
+		},
+		{
+			"key": "TimeForGetListUsers",
+			"value": "5000",
+			"type": "string"
+		},
+		{
+			"key": "UserID",
+			"value": "2",
+			"type": "string"
+		},
+		{
+			"key": "BaseTimeForTests",
+			"value": "6000",
+			"type": "string"
+		},
+		{
+			"key": "UserLastName",
+			"value": "Weaver",
+			"type": "string"
+		},
+		{
+			"key": "ResourceID",
+			"value": "2",
+			"type": "string"
+		},
+		{
+			"key": "ResourceName",
+			"value": "fuchsia rose",
+			"type": "string"
+		},
+		{
+			"key": "NewUserName",
+			"value": "morpheus",
+			"type": "string"
+		},
+		{
+			"key": "NewUserJob",
+			"value": "leader",
+			"type": "string"
+		},
+		{
+			"key": "UpdateUserID",
+			"value": "2"
+		},
+		{
+			"key": "UpdateUserName",
+			"value": "SomeName",
+			"type": "string"
+		},
+		{
+			"key": "UpdateUserJob",
+			"value": "SomeJob",
+			"type": "string"
+		},
+		{
+			"key": "RegisterUserToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "LoginUserToken",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
